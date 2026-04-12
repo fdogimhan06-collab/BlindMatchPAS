@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Submit New Project";
+}
+
+<h2>Submit New Project</h2>
+
+<form method="post">
+    <div class="mb-3">
+        <label>Project Title</label>
+        <input name="Title" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Abstract</label>
+        <textarea name="Abstract" class="form-control"
+                  rows="4" required></textarea>
+    </div>
+    <div class="mb-3">
+        <label>Tech Stack</label>
+        <input name="TechStack" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>Research Area</label>
+        <select name="ResearchAreaId" class="form-control">
+            @foreach (var area in ViewBag.ResearchAreas)
+            {
+                <option value="@area.Id">@area.Name</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-success">
+        Submit Project
+    </button>
+    <a asp-action="Index" class="btn btn-secondary">
+        Cancel
+    </a>
+</form>

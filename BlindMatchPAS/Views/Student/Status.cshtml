@@ -1,0 +1,36 @@
+﻿@model BlindMatchPAS.Models.Project
+@{
+    ViewData["Title"] = "Project Status";
+}
+
+<h2>Project Status</h2>
+
+<div class="card p-4">
+    <h4>@Model.Title</h4>
+    <p><strong>Abstract:</strong> @Model.Abstract</p>
+    <p><strong>Tech Stack:</strong> @Model.TechStack</p>
+    <p><strong>Research Area:</strong> @Model.ResearchArea?.Name</p>
+    <p>
+        <strong>Status:</strong>
+        <span class="badge bg-primary">@Model.Status</span>
+    </p>
+
+    @if (Model.Status == "Matched")
+    {
+        <div class="alert alert-success mt-3">
+            <h5>🎉 Match Confirmed!</h5>
+            <p>
+                <strong>Supervisor:</strong>
+                @Model.Student?.FullName
+            </p>
+            <p>
+                <strong>Email:</strong>
+                @Model.Student?.Email
+            </p>
+        </div>
+    }
+</div>
+
+<a asp-action="Index" class="btn btn-secondary mt-3">
+    Back to My Projects
+</a>

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<BlindMatchPAS.Models.ResearchArea>
+@{
+    ViewData["Title"] = "Manage Research Areas";
+}
+
+<h2>Manage Research Areas</h2>
+
+<form method="post" asp-action="AddResearchArea" class="mb-4">
+    <div class="input-group">
+        <input name="name" class="form-control"
+               placeholder="New Research Area" required />
+        <button type="submit" class="btn btn-primary">
+            Add
+        </button>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Research Area</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var area in Model)
+        {
+            <tr>
+                <td>@area.Id</td>
+                <td>@area.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" class="btn btn-secondary mt-3">
+    Back to Dashboard
+</a>

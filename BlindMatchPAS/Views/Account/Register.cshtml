@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Register";
+}
+
+<h2>Register</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger">
+                    @ViewBag.Error
+                </div>
+            }
+            <div class="mb-3">
+                <label>Full Name</label>
+                <input name="fullName" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label>Email</label>
+                <input name="email" type="email"
+                       class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label>Password</label>
+                <input name="password" type="password"
+                       class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label>Role</label>
+                <select name="role" class="form-control">
+                    <option value="Student">Student</option>
+                    <option value="Supervisor">Supervisor</option>
+                    <option value="ModuleLeader">Module Leader</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success">
+                Register
+            </button>
+            <a asp-action="Login" class="btn btn-link">
+                Already have an account?
+            </a>
+        </form>
+    </div>
+</div>

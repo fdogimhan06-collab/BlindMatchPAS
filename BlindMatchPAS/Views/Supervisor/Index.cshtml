@@ -1,0 +1,37 @@
+﻿@model IEnumerable<BlindMatchPAS.Models.Project>
+@{
+    ViewData["Title"] = "Blind Review Dashboard";
+}
+
+<h2>Blind Review Dashboard</h2>
+<p class="text-muted">
+    Student identities are hidden until you confirm a match.
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Research Area</th>
+            <th>Tech Stack</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var project in Model)
+        {
+            <tr>
+                <td>@project.Title</td>
+                <td>@project.ResearchArea?.Name</td>
+                <td>@project.TechStack</td>
+                <td>
+                    <a asp-action="ExpressInterest"
+                       asp-route-id="@project.Id"
+                       class="btn btn-warning btn-sm">
+                        Express Interest
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

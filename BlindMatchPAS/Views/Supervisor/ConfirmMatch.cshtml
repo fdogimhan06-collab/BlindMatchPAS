@@ -1,0 +1,26 @@
+﻿@model BlindMatchPAS.Models.Match
+@{
+    ViewData["Title"] = "Match Confirmed!";
+}
+
+<h2>🎉 Match Confirmed!</h2>
+
+<div class="alert alert-success">
+    <h4>Identity Revealed!</h4>
+    <p><strong>Project:</strong> @Model.Project?.Title</p>
+    <p><strong>Abstract:</strong> @Model.Project?.Abstract</p>
+    <hr />
+    <h5>Student Details:</h5>
+    <p>
+        <strong>Name:</strong>
+        @Model.Project?.Student?.FullName
+    </p>
+    <p>
+        <strong>Email:</strong>
+        @Model.Project?.Student?.Email
+    </p>
+</div>
+
+<a asp-action="Index" class="btn btn-primary mt-3">
+    Back to Dashboard
+</a>
