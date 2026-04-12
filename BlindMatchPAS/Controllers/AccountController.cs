@@ -18,14 +18,26 @@ namespace BlindMatchPAS.Controllers
 
         // Login
         public IActionResult Login() => View();
-
+        
         [HttpPost]
         public async Task<IActionResult> Login(string email, string password)
         {
             var result = await _signInManager
                 .PasswordSignInAsync(email, password, false, false);
             if (result.Succeeded)
-                return RedirectToAction("Index", "Home");
+            {
+                var user = await _userManager.FindByEmailAsync(email);
+                var roles = await _userManager.GetRolesAsync(user!);
+
+                if (roles.Contains("ModuleLeader"))
+                    return RedirectToAction("Index", "Admin");
+                else if (roles.Contains("Supervisor"))
+                    return RedirectToAction("Index", "Supervisor");
+                else if (roles.Contains("Student"))
+                    return RedirectToAction("Index", "Student");
+                else
+                    return RedirectToAction("Index", "Home");
+            }
             ViewBag.Error = "Invalid login attempt";
             return View();
         }
@@ -60,6 +72,10 @@ namespace BlindMatchPAS.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }
