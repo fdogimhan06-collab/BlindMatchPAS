@@ -61,5 +61,16 @@ namespace BlindMatchPAS.Controllers
             await _context.SaveChangesAsync();
             return View(match);
         }
+        // My Matches - Under Review
+        public async Task<IActionResult> MyMatches()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var matches = await _context.Matches
+                .Include(m => m.Project)
+                .ThenInclude(p => p!.ResearchArea)
+                .Where(m => m.SupervisorId == user!.Id)
+                .ToListAsync();
+            return View(matches);
+        }
     }
 }

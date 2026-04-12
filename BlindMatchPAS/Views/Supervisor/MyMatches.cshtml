@@ -1,0 +1,50 @@
+﻿@model IEnumerable<BlindMatchPAS.Models.Match>
+@{
+    ViewData["Title"] = "My Matches";
+}
+
+<h2>My Matches</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Project</th>
+            <th>Research Area</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var match in Model)
+        {
+            <tr>
+                <td>@match.Project?.Title</td>
+                <td>@match.Project?.ResearchArea?.Name</td>
+                <td>
+                    @if (match.IsRevealed)
+                    {
+                        <span class="badge bg-success">Matched</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-warning">Under Review</span>
+                    }
+                </td>
+                <td>
+                    @if (!match.IsRevealed)
+                    {
+                        <a asp-action="ConfirmMatch"
+                           asp-route-matchId="@match.Id"
+                           class="btn btn-success btn-sm">
+                            Confirm Match
+                        </a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" class="btn btn-secondary mt-3">
+    Back to Dashboard
+</a>
