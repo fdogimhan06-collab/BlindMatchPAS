@@ -61,7 +61,14 @@ namespace BlindMatchPAS.Controllers
             {
                 await _userManager.AddToRoleAsync(user, role);
                 await _signInManager.SignInAsync(user, false);
-                return RedirectToAction("Index", "Home");
+                if (role == "ModuleLeader")
+                    return RedirectToAction("Index", "Admin");
+                else if (role == "Supervisor")
+                    return RedirectToAction("Index", "Supervisor");
+                else if (role == "Student")
+                    return RedirectToAction("Index", "Student");
+                else
+                    return RedirectToAction("Index", "Home");
             }
             ViewBag.Error = "Registration failed";
             return View();
