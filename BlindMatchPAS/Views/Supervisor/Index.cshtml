@@ -3,38 +3,64 @@
     ViewData["Title"] = "Blind Review Dashboard";
 }
 
-<h2>Blind Review Dashboard</h2>
-<p class="text-muted">
-    Student identities are hidden until you confirm a match.
-</p>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="page-title">
+        <i class="fas fa-user-secret"></i> Blind Review Dashboard
+    </h2>
+    <a asp-action="MyMatches" class="btn btn-primary">
+        <i class="fas fa-handshake"></i> My Matches
+    </a>
+</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Research Area</th>
-            <th>Tech Stack</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="alert alert-warning">
+    <i class="fas fa-eye-slash"></i>
+    <strong>Blind Mode:</strong>
+    Student identities are hidden until you confirm a match.
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        <i class="fas fa-info-circle"></i>
+        No projects available for review.
+    </div>
+}
+else
+{
+    <div class="row">
         @foreach (var project in Model)
         {
-            <tr>
-                <td>@project.Title</td>
-                <td>@project.ResearchArea?.Name</td>
-                <td>@project.TechStack</td>
-                <td>
-                    <a asp-action="ExpressInterest"
-                       asp-route-id="@project.Id"
-                       class="btn btn-warning btn-sm">
-                        Express Interest
-                    </a>
-                </td>
-            </tr>
+            <div class="col-md-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-header"
+                         style="background: linear-gradient(135deg, #1a1a2e, #16213e); color: white;">
+                        <i class="fas fa-file-alt"></i> @project.Title
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            <i class="fas fa-tag text-primary"></i>
+                            <strong>Research Area:</strong>
+                            @project.ResearchArea?.Name
+                        </p>
+                        <p>
+                            <i class="fas fa-laptop-code text-success"></i>
+                            <strong>Tech Stack:</strong>
+                            @project.TechStack
+                        </p>
+                        <div class="alert alert-secondary py-1">
+                            <i class="fas fa-user-secret"></i>
+                            Student identity hidden
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a asp-action="ExpressInterest"
+                               asp-route-id="@project.Id"
+                               class="btn btn-warning">
+                            <i class="fas fa-heart"></i> Express Interest
+                        </a>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
-<a asp-action="MyMatches" class="btn btn-primary mt-3">
-    My Matches
-</a>
+    </div>
+}
