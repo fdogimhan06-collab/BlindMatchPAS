@@ -2,35 +2,66 @@
     ViewData["Title"] = "Submit New Project";
 }
 
-<h2>Submit New Project</h2>
-
-<form method="post">
-    <div class="mb-3">
-        <label>Project Title</label>
-        <input name="Title" class="form-control" required />
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header text-white py-3"
+                 style="background: linear-gradient(135deg, #1a1a2e, #16213e);">
+                <h4><i class="fas fa-plus-circle"></i> Submit New Project</h4>
+            </div>
+            <div class="card-body p-4">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            <i class="fas fa-heading"></i> Project Title
+                        </label>
+                        <input name="Title" class="form-control"
+                               placeholder="Enter project title" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            <i class="fas fa-align-left"></i> Abstract
+                        </label>
+                        <textarea name="Abstract" class="form-control"
+                                  rows="4"
+                                  placeholder="Describe your project"
+                                  required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            <i class="fas fa-laptop-code"></i> Tech Stack
+                        </label>
+                        <input name="TechStack" class="form-control"
+                               placeholder="e.g. ASP.NET Core, SQL Server" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            <i class="fas fa-tag"></i> Research Area
+                        </label>
+                        <select name="ResearchAreaId" class="form-select">
+                            @foreach (var area in ViewBag.ResearchAreas)
+                            {
+                                <option value="@area.Id">@area.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            <i class="fas fa-file-upload"></i> Upload File (Optional)
+                        </label>
+                        <input type="file" name="uploadedFile" class="form-control" />
+                        <small class="text-muted">PDF, DOC, DOCX files accepted</small>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-paper-plane"></i> Submit Project
+                        </button>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    <div class="mb-3">
-        <label>Abstract</label>
-        <textarea name="Abstract" class="form-control"
-                  rows="4" required></textarea>
-    </div>
-    <div class="mb-3">
-        <label>Tech Stack</label>
-        <input name="TechStack" class="form-control" />
-    </div>
-    <div class="mb-3">
-        <label>Research Area</label>
-        <select name="ResearchAreaId" class="form-control">
-            @foreach (var area in ViewBag.ResearchAreas)
-            {
-                <option value="@area.Id">@area.Name</option>
-            }
-        </select>
-    </div>
-    <button type="submit" class="btn btn-success">
-        Submit Project
-    </button>
-    <a asp-action="Index" class="btn btn-secondary">
-        Cancel
-    </a>
-</form>
+</div>

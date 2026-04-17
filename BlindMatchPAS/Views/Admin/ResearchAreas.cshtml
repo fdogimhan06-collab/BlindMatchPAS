@@ -9,7 +9,14 @@
     <div class="input-group">
         <input name="name" class="form-control"
                placeholder="New Research Area" required />
-        <button type="submit" class="btn btn-primary">
+        <div class="mb-3">
+            <label class="form-label fw-bold">
+                <i class="fas fa-file-upload"></i> Upload File (Optional)
+            </label>
+            <input type="file" name="uploadedFile" class="form-control" />
+            <small class="text-muted">PDF, DOC, DOCX files accepted</small>
+        </div>
+               <button type="submit" class="btn btn-primary">
             Add
         </button>
     </div>

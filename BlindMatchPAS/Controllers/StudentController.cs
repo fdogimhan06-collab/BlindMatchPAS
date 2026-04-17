@@ -39,11 +39,27 @@ namespace BlindMatchPAS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Project project)
+        public async Task<IActionResult> Create(Project project, IFormFile? uploadedFile)
         {
             var user = await _userManager.GetUserAsync(User);
             project.StudentId = user!.Id;
             project.Status = "Pending";
+
+            if (uploadedFile != null && uploadedFile.Length > 0)
+            {
+                var uploadsFolder = Path.Combine(
+                    Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+                Directory.CreateDirectory(uploadsFolder);
+                var fileName = Guid.NewGuid().ToString() +
+                    Path.GetExtension(uploadedFile.FileName);
+                var filePath = Path.Combine(uploadsFolder, fileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await uploadedFile.CopyToAsync(stream);
+                }
+                project.FilePath = "/uploads/" + fileName;
+            }
+
             _context.Projects.Add(project);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
