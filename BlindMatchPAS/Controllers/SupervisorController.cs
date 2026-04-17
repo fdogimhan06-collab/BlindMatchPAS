@@ -25,7 +25,7 @@ namespace BlindMatchPAS.Controllers
         {
             var projects = await _context.Projects
                 .Include(p => p.ResearchArea)
-                .Where(p => p.Status == "Pending")
+                .Where(p => p.Status == "Pending" || p.Status == "UnderReview")
                 .ToListAsync();
             return View(projects);
         }
@@ -34,18 +34,28 @@ namespace BlindMatchPAS.Controllers
         public async Task<IActionResult> ExpressInterest(int id)
         {
             var user = await _userManager.GetUserAsync(User);
-            var match = new Match
-            {
-                ProjectId = id,
-                SupervisorId = user!.Id,
-                IsRevealed = false
-            };
-            _context.Matches.Add(match);
 
-            var project = await _context.Projects.FindAsync(id);
-            project!.Status = "UnderReview";
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            // Check if already expressed interest
+            var existing = await _context.Matches
+                .FirstOrDefaultAsync(m => m.ProjectId == id
+                    && m.SupervisorId == user!.Id);
+
+            if (existing == null)
+            {
+                var match = new Match
+                {
+                    ProjectId = id,
+                    SupervisorId = user!.Id,
+                    IsRevealed = false
+                };
+                _context.Matches.Add(match);
+
+                var project = await _context.Projects.FindAsync(id);
+                project!.Status = "UnderReview";
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("MyMatches");
         }
 
         // Confirm Match - Identity Reveal
@@ -61,6 +71,7 @@ namespace BlindMatchPAS.Controllers
             await _context.SaveChangesAsync();
             return View(match);
         }
+
         // My Matches - Under Review
         public async Task<IActionResult> MyMatches()
         {
@@ -71,6 +82,15 @@ namespace BlindMatchPAS.Controllers
                 .Where(m => m.SupervisorId == user!.Id)
                 .ToListAsync();
             return View(matches);
+        }
+
+        // View Project Details
+        public async Task<IActionResult> ProjectDetails(int id)
+        {
+            var project = await _context.Projects
+                .Include(p => p.ResearchArea)
+                .FirstOrDefaultAsync(p => p.Id == id);
+            return View(project);
         }
     }
 }

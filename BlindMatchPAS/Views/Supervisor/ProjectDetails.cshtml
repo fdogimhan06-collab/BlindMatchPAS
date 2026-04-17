@@ -1,0 +1,68 @@
+﻿@model BlindMatchPAS.Models.Project
+@{
+    ViewData["Title"] = "Project Details";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header text-white py-3"
+                 style="background: linear-gradient(135deg, #1a1a2e, #16213e);">
+                <h4>
+                    <i class="fas fa-file-alt"></i> Project Details
+                    <span class="badge bg-warning ms-2">
+                        <i class="fas fa-eye-slash"></i> Anonymous
+                    </span>
+                </h4>
+            </div>
+            <div class="card-body p-4">
+                <div class="mb-3">
+                    <label class="fw-bold text-muted">Project Title</label>
+                    <p class="fs-5">@Model.Title</p>
+                </div>
+                <hr />
+                <div class="mb-3">
+                    <label class="fw-bold text-muted">Abstract</label>
+                    <p>@Model.Abstract</p>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="fw-bold text-muted">Tech Stack</label>
+                        <p><i class="fas fa-laptop-code text-success"></i> @Model.TechStack</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="fw-bold text-muted">Research Area</label>
+                        <p><i class="fas fa-tag text-primary"></i> @Model.ResearchArea?.Name</p>
+                    </div>
+                </div>
+                <hr />
+                <div class="alert alert-warning">
+                    <i class="fas fa-user-secret"></i>
+                    <strong>Blind Mode:</strong> Student identity is hidden.
+                </div>
+
+                @if (Model.FilePath != null)
+                {
+                    <div class="mb-3">
+                        <label class="fw-bold text-muted">Attached File</label>
+                        <p>
+                            <a href="@Model.FilePath" class="btn btn-sm btn-outline-primary" target="_blank">
+                                <i class="fas fa-download"></i> Download File
+                            </a>
+                        </p>
+                    </div>
+                }
+            </div>
+            <div class="card-footer">
+                <a asp-action="ExpressInterest" asp-route-id="@Model.Id"
+                       class="btn btn-warning me-2">
+                    <i class="fas fa-heart"></i> Express Interest
+                </a>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Back
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
